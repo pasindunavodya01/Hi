@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Saved Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #4CAF50;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .data-container {
+            display: none;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .hidden-button {
+            background-color: #ccc;
+            cursor: pointer;
+            display: none;
+        }
+
+        .show-button {
+            background-color: #4CAF50;
+            color: white;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Saved Data</h1>
+        <button class="show-button" id="showButton" onclick="toggleData()">Show Saved Data</button>
+        
+        <div id="dataContainer" class="data-container">
+            <h2>Stored Information:</h2>
+            <p id="savedData"></p>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle visibility of the saved data
+        function toggleData() {
+            const dataContainer = document.getElementById('dataContainer');
+            const showButton = document.getElementById('showButton');
+
+            // Check if there is any data in localStorage
+            const savedData = JSON.parse(localStorage.getItem('userInputs'));
+
+            if (savedData && savedData.length > 0) {
+                // Display the data if available
+                document.getElementById('savedData').innerHTML = savedData.join('<br>');
+                dataContainer.style.display = 'block';
+                showButton.innerText = 'Hide Saved Data';
+            } else {
+                // If no data is found, show a message
+                document.getElementById('savedData').innerText = 'No data saved yet!';
+                dataContainer.style.display = 'block';
+                showButton.innerText = 'Hide Saved Data';
+            }
+        }
+    </script>
+
+</body>
+</html>
