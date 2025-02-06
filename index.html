@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Webpage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #4CAF50;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .input-container {
+            display: none;
+        }
+
+        .thank-you, .thank-you-time {
+            color: #4CAF50;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+       <div class="container" id="container">
+        <h1 id="hi">Hi! I'm Pasindu. I'd like to get to know you better, if that's okay,</h1>
+        <p id="initial-message"></p>
+        
+        <div id="question-container">
+            <p id="question">Would you be comfortable sharing your phone number with me?</p>
+            <button onclick="handleFirstAnswer('yes')">Yes</button>
+            <button onclick="handleFirstAnswer('no')">No</button>    
+        </div>
+
+        <div id="second-question-container" class="input-container">
+            <p>That's okay! Would you feel comfortable sharing your Instagram or Facebook ID instead?</p>
+            <button onclick="handleSecondAnswer('yes2')">Yes</button>
+            <button onclick="handleSecondAnswer('no')">No</button>
+        </div>
+
+        <div id="input-container" class="input-container">
+            <p>Great! Please enter your number here:</p>
+            <input type="text" id="user-input" placeholder="Enter your number...">
+            <button onclick="submitInput()">Submit</button>
+        </div>
+        <div id="input-container2" class="input-container">
+            <p>Great! Please enter your id here:</p>
+            <input type="text" id="user-input2" placeholder="Enter your Id...">
+            <button onclick="submitInput2()">Submit</button>
+        </div>
+
+        <div id="thank-you-message" class="thank-you" style="display: none;">
+            <p>Thanks for sharing your details with me!</p>
+        </div>
+
+        <div id="thank-you-time" class="thank-you-time" style="display: none;">
+            <p>Thanks for your time, I really appreciate it!</p>
+        </div>
+    </div>
+
+    <script>
+        function handleFirstAnswer(answer) {
+            const questionContainer = document.getElementById('question-container');
+            const secondQuestionContainer = document.getElementById('second-question-container');
+            const inputContainer = document.getElementById('input-container');
+            const initialMessage = document.getElementById('initial-message');
+
+            if (answer === 'no') {
+                questionContainer.style.display = 'none';
+                secondQuestionContainer.style.display = 'block';
+                initialMessage.style.display = 'none'; // Hide initial message
+            } else if (answer === 'yes') {
+                questionContainer.style.display = 'none';
+                inputContainer.style.display = 'block';
+                initialMessage.style.display = 'none'; // Hide initial message
+            }
+        }
+
+        function handleSecondAnswer(answer) {
+            const hi = document.getElementById('hi'); // Corrected reference to 'container'
+            const secondQuestionContainer = document.getElementById('second-question-container');
+            const inputContainer2 = document.getElementById('input-container2');
+            const thankYouMessage = document.getElementById('thank-you-message');
+            const thankYouTime = document.getElementById('thank-you-time');
+
+            if (answer === 'yes2') {
+                secondQuestionContainer.style.display = 'none';
+                inputContainer2.style.display = 'block';
+            } else if (answer === 'no') {
+                hi.style.display = 'none'; // Hide the entire container
+                secondQuestionContainer.style.display = 'none';
+                thankYouTime.style.display = 'block';
+            }
+        }
+
+        function submitInput() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput) {
+                // Get existing inputs from localStorage or initialize as an empty array
+                let inputs = JSON.parse(localStorage.getItem('userInputs')) || [];
+                
+                // Append the new input to the array
+                inputs.push(userInput);
+
+                // Save the updated array back to localStorage
+                localStorage.setItem('userInputs', JSON.stringify(inputs));
+
+                alert('Your input has been saved!');
+		 
+                document.getElementById('user-input').value = ''; 
+                document.getElementById('input-container').style.display = 'none'; 
+		document.getElementById('hi').style.display = 'none';
+                document.getElementById('thank-you-message').style.display = 'block'; 
+            } else {
+                alert('Please enter something.');
+            }
+        }
+
+        function submitInput2() {
+            const userInput2 = document.getElementById('user-input2').value;
+            if (userInput2) {
+                // Get existing inputs from localStorage or initialize as an empty array
+                let inputs = JSON.parse(localStorage.getItem('userInputs')) || [];
+                
+                // Append the new input to the array
+                inputs.push(userInput2);
+
+                // Save the updated array back to localStorage
+                localStorage.setItem('userInputs', JSON.stringify(inputs));
+
+                alert('Your input has been saved!');
+                document.getElementById('user-input2').value = ''; 
+                document.getElementById('input-container2').style.display = 'none'; // Hide input container
+
+		document.getElementById('hi').style.display = 'none';
+                document.getElementById('thank-you-message').style.display = 'block'; 
+            } else {
+                alert('Please enter something.');
+            }
+        }
+    </script>
+
+</body>
+</html>
